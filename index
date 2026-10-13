@@ -6,9 +6,9 @@
   <title>Abbigliamento App</title>
   
   <!-- Favicon Standard e Apple Link espliciti per PWA con Iframe -->
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
-  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="dashboard.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="dashboard.png">
+  <link rel="apple-touch-icon" href="dashboard.png">
   
   <!-- Collegamento al Manifest -->
   <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
