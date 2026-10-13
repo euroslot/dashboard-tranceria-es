@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Abbigliamento App</title>
+  
+  <!-- Favicon Standard e Apple Link espliciti per PWA con Iframe -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  
+  <!-- Collegamento al Manifest -->
+  <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+  
+  <style>
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #0f172a; }
+    iframe { width: 100%; height: 100%; border: none; }
+    #installBtn { position: fixed; bottom: 20px; right: 20px; background: #ea580c; color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 6px rgba(0,0,0,0.2); cursor: pointer; display: none; z-index: 9999; }
+  </style>
+</head>
+<body>
+
+  <!-- Bottone galleggiante di installazione -->
+  <button id="installBtn">📲 Installa App</button>
+
+  <!-- URL Google Apps Script -->
+  <iframe src="https://script.google.com/a/macros/eurotranciatura.it/s/AKfycby6CSp2zu5BOmiQPgHkm5bPLXq72KjLUmUtHAULrdqYcjMluMYSJlLkVSg60nNV1X-GtA/exec"></iframe>
+
+  <script>
+    // Registra un Service Worker base per attivare le funzioni PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    // Logica per mostrare il bottone "Installa App"
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installBtn.style.display = 'none';
+        }
+        deferredPrompt = null;
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installBtn.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
